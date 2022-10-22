@@ -13,7 +13,7 @@ app.servicebus.prefetch_count=100
 mvn install
 
 # Must be greater than "maxConcurrentCalls"
-mvn exec:java -Dreactor.schedulers.defaultBoundedElasticSize=150
+mvn exec:java -Dreactor.schedulers.defaultBoundedElasticSize=300
 ```
 
 
