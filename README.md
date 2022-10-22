@@ -1,8 +1,12 @@
-# azure-serviceubs-java-benchmark
+# Azure Service Bus Benchmark
 
+Create the `app.properties`:
 
+```sh
+touch app.properties
+```
 
-
+Enter the properties:
 
 ```properties
 app.servicebus.connection_string=Endpoint=sb://{BUS_NAME}.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey={KEY}
@@ -26,8 +30,6 @@ mvn exec:java -Dreactor.schedulers.defaultBoundedElasticSize=300
 ```
 
 
-
-
 ```sh
 location="brazilsouth"
 group="rg-benchmark"
@@ -46,3 +48,15 @@ az servicebus namespace authorization-rule keys list -g $group --namespace-name 
 ```sh
 az vm create -n "vm-benchmark" -g "rg-benchmark" --location "brazilsouth" --image "UbuntuLTS" --custom-data "cloud-init.sh" --size "Standard_F8s_v2"
 ```
+
+```sh
+ssh pomatti@<public-ip>
+```
+
+Check if cloud init ran correctly:
+
+```sh
+java --version
+```
+
+If Java is not installed, check cloud init logs or install `cloud-init.sh` manually.
