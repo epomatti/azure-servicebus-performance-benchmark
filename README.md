@@ -3,7 +3,7 @@
 Create the `app.properties`:
 
 ```sh
-touch app.properties
+$ touch app.properties
 ```
 
 Enter the properties:
@@ -37,7 +37,7 @@ namespace="bus-<YOUR NAMESPACE NAME>"
 
 az group create -n $group -l $location
 az servicebus namespace create --sku "Standard" -n $namespace -g $group -l $location
-az servicebus queue create -n "benchmark-queue" --namespace-name $namespace -g $group --enable-partitioning
+az servicebus queue create -n "benchmark-queue" --namespace-name $namespace -g $group --enable-partitioning true
 
 az servicebus namespace authorization-rule keys list -g $group --namespace-name $namespace --name "RootManageSharedAccessKey" --query "primaryConnectionString" -o tsv
 ```
@@ -60,3 +60,17 @@ java --version
 ```
 
 If Java is not installed, check cloud init logs or install `cloud-init.sh` manually.
+
+
+```sh
+location="brazilsouth"
+group="rg-benchmark"
+namespace="bus-benchmark-999-premium"
+
+az servicebus namespace create --sku "Premium" -n $namespace -g $group -l $location
+az servicebus queue create -n "benchmark-queue" --namespace-name $namespace -g $group --max-size 5120 --enable-partitioning true
+
+az servicebus namespace authorization-rule keys list -g $group --namespace-name $namespace --name "RootManageSharedAccessKey" --query "primaryConnectionString" -o tsv
+```
+
+For better performance, add a Private Endpoint.
