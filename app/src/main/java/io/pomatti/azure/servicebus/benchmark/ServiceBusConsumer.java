@@ -11,7 +11,7 @@ import com.azure.messaging.servicebus.ServiceBusErrorContext;
 import com.azure.messaging.servicebus.ServiceBusProcessorClient;
 import com.azure.messaging.servicebus.ServiceBusReceivedMessageContext;
 
-public class ServiceBusConsumer implements Closeable{
+public class ServiceBusConsumer implements Closeable {
 
   Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -23,11 +23,10 @@ public class ServiceBusConsumer implements Closeable{
   private Integer prefetchCount;
 
   public ServiceBusConsumer() {
-    var props = Config.getProperties();
-    connectionString = props.getProperty("app.servicebus.connection_string");
-    queue = props.getProperty("app.servicebus.queue");
-    maxConcurrentCalls = Integer.parseInt(props.getProperty("app.servicebus.max_concurrent_calls"));
-    prefetchCount = Integer.parseInt(props.getProperty("app.servicebus.prefetch_count"));
+    connectionString = Config.getProperty("app.servicebus.connection_string");
+    queue = Config.getProperty("app.servicebus.queue");
+    maxConcurrentCalls = Integer.parseInt(Config.getProperty("app.servicebus.max_concurrent_calls"));
+    prefetchCount = Integer.parseInt(Config.getProperty("app.servicebus.prefetch_count"));
   }
 
   public void start() {

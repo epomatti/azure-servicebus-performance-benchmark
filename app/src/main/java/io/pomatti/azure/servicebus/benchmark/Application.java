@@ -21,13 +21,6 @@ public class Application {
 
       new MessageMachine(sender).start();
     }
-
-    // List<String> largeDataset = getLargeDataset();
-    // ForkJoinPool customThreadPool = new ForkJoinPool(5);
-    // customThreadPool.submit(() ->
-    // largeDataset.parallelStream().forEach(System.out::println));
-    // customThreadPool.shutdownNow();
-
   }
 
 }
