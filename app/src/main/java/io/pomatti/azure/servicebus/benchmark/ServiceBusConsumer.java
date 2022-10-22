@@ -32,7 +32,7 @@ public class ServiceBusConsumer implements Closeable {
   public void start() {
     Consumer<ServiceBusReceivedMessageContext> processMessage = messageContext -> {
       try {
-        var body = messageContext.getMessage().getBody().toString();
+        messageContext.getMessage().getBody().toString();
         messageContext.complete();
       } catch (Exception ex) {
         logger.error("Error processing message", ex);
