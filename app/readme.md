@@ -2,10 +2,16 @@
 
 
 ```properties
-app.servicebus.queue=benchmark-queue
 app.servicebus.connection_string=Endpoint=sb://{BUS_NAME}.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey={KEY}
+app.servicebus.queue=benchmark-queue
 app.servicebus.max_concurrent_calls=100
 app.servicebus.prefetch_count=100
+
+app.init_consumer=true
+app.init_sender=true
+app.sender_threads=100
+app.message_quantity=10000
+app.message_body_bytes=1024
 ```
 
 
