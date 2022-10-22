@@ -1,5 +1,6 @@
 package io.pomatti.azure.servicebus.benchmark;
 
+import java.io.Closeable;
 import java.util.function.Consumer;
 
 import org.slf4j.Logger;
@@ -10,7 +11,7 @@ import com.azure.messaging.servicebus.ServiceBusErrorContext;
 import com.azure.messaging.servicebus.ServiceBusProcessorClient;
 import com.azure.messaging.servicebus.ServiceBusReceivedMessageContext;
 
-public class ServiceBusConsumer {
+public class ServiceBusConsumer implements Closeable{
 
   Logger logger = LoggerFactory.getLogger(getClass());
 

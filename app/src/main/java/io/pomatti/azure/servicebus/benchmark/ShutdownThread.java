@@ -1,22 +1,22 @@
 package io.pomatti.azure.servicebus.benchmark;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.Closeable;
+import java.io.IOException;
 
 public class ShutdownThread extends Thread {
 
-  private Logger logger = LoggerFactory.getLogger(getClass());
+  private Closeable consumer;
 
-  private ServiceBusConsumer consumer;
-
-  public ShutdownThread(ServiceBusConsumer consumer) {
+  public ShutdownThread(Closeable consumer) {
     this.consumer = consumer;
   }
 
   public void run() {
-    logger.info("Closing Service Bus processor...");
-    consumer.close();
-    logger.info("Finished closing Service Bus processor");
+    try {
+      consumer.close();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
 }
