@@ -2,9 +2,8 @@ package io.pomatti.azure.servicebus.benchmark;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.ForkJoinPool;
 
 import org.slf4j.Logger;
@@ -21,15 +20,18 @@ public class MessageMachine {
   }
 
   public void start() throws RuntimeException {
-    List<String> dataset = getLargeDataset();
+    Set<Integer> dataset = getLargeDataset();
     var messageQuantity = dataset.size();
+    var messageBodyBytes = Integer.parseInt(Config.getProperty("app.message_body_bytes"));
+
+    final String body = "8".repeat(messageBodyBytes);
 
     int size = Integer.parseInt(Config.getProperty("app.sender_threads"));
     ForkJoinPool pool = new ForkJoinPool(size);
 
     Instant starts = Instant.now();
     try {
-      pool.submit(() -> dataset.stream().parallel().forEach(body -> {
+      pool.submit(() -> dataset.stream().parallel().forEach(i -> {
         sender.send(body);
       })).get();
       Instant ends = Instant.now();
@@ -42,16 +44,16 @@ public class MessageMachine {
 
   }
 
-  private List<String> getLargeDataset() {
+  private Set<Integer> getLargeDataset() {
     logger.info("Started building datasource");
+    Set<Integer> counter = new HashSet<>();
     Integer qty = Integer.parseInt(Config.getProperty("app.message_quantity"));
-    List<String> dataset = new ArrayList<>();
     for (int i = 0; i < qty; i++) {
-      dataset.add(UUID.randomUUID().toString());
+      counter.add(i);
     }
-    logger.info(dataset.size() + "");
+    logger.info(counter.size() + "");
     logger.info("Finished building datasource");
-    return dataset;
+    return counter;
   }
 
 }
