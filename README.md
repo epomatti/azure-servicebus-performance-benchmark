@@ -71,13 +71,13 @@ Connect to the VM:
 ssh <user>@<public-ip>
 ```
 
-Check if cloud init ran correctly:
+Check if the cloud-init script ran correctly:
 
 ```sh
 java --version
 ```
 
-If Java is not installed, check cloud init logs or install `cloud-init.sh` manually.
+If Java is not installed, check cloud init logs or install [`cloud-init.sh`](./cloud-init.sh) manually.
 
 Create a **Premium** namespace:
 
@@ -91,6 +91,8 @@ az servicebus queue create -n "benchmark-queue" --namespace-name $namespace -g $
 
 az servicebus namespace authorization-rule keys list -g $group --namespace-name $namespace --name "RootManageSharedAccessKey" --query "primaryConnectionString" -o tsv
 ```
+
+Create the `app.properties` file as explained in the previous section.
 
 For better performance, add a [Private Endpoint](https://learn.microsoft.com/en-us/azure/service-bus-messaging/private-link-service) and attach it to the VM subnet.
 
