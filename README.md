@@ -94,7 +94,9 @@ az servicebus queue create -n "benchmark-queue" --namespace-name $namespace -g $
 az servicebus namespace authorization-rule keys list -g $group --namespace-name $namespace --name "RootManageSharedAccessKey" --query "primaryConnectionString" -o tsv
 ```
 
-For better performance, add a [Private Endpoint](https://learn.microsoft.com/en-us/azure/service-bus-messaging/private-link-service).
+For better performance, add a [Private Endpoint](https://learn.microsoft.com/en-us/azure/service-bus-messaging/private-link-service) and attach it to the VM subnet.
+
+> ℹ️ When using Private Endpoints you don't need to change the URL. Use public FQDN. Test it with `nslookup`.
 
 To control Java memory and other fine-tunning configurations:
 
