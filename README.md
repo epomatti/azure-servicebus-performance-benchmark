@@ -2,9 +2,7 @@
 
 Benchmarking sample code for Service Bus using the Java SDK.
 
-Requirements:
-- JDK 17
-- Maven latest version
+Recommended requirements are JDK 17 and Maven latest version.
 
 ## 💻 Local Development
 
@@ -22,7 +20,7 @@ az servicebus queue create -n "benchmark-queue" --namespace-name $namespace -g $
 az servicebus namespace authorization-rule keys list -g $group --namespace-name $namespace --name "RootManageSharedAccessKey" --query "primaryConnectionString" -o tsv
 ```
 
-Create the `app.properties`:
+Create the `app.properties` in the root folder:
 
 ```sh
 $ touch app.properties
@@ -53,10 +51,10 @@ Start the app:
 
 ```sh
 mvn install
-
-# Must be greater than "maxConcurrentCalls"
 mvn exec:java -Dreactor.schedulers.defaultBoundedElasticSize=300
 ```
+
+> ℹ️ Due to [this known issue](https://github.com/Azure/azure-sdk-for-java/issues/30483), `defaultBoundedElasticSize` needs to be set for Reactor. Value must be greater than "maxConcurrentCalls".
 
 
 ## 🚀 Cloud Benchmark
@@ -96,7 +94,7 @@ az servicebus namespace authorization-rule keys list -g $group --namespace-name 
 
 For better performance, add a [Private Endpoint](https://learn.microsoft.com/en-us/azure/service-bus-messaging/private-link-service) and attach it to the VM subnet.
 
-> ℹ️ When using Private Endpoints you don't need to change the URL. Use public FQDN. Test it with `nslookup`.
+> ℹ️ When using Private Endpoints you don't need to change the URL. Use the same public FQDN, Azure will take care of the routing. Test it with `nslookup`.
 
 To control Java memory and other fine-tunning configurations:
 
