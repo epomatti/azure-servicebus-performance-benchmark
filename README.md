@@ -43,8 +43,6 @@ az servicebus namespace authorization-rule keys list -g $group --namespace-name 
 ```
 
 
-
-
 ```sh
 az vm create -n "vm-benchmark" -g "rg-benchmark" --location "brazilsouth" --image "UbuntuLTS" --custom-data "cloud-init.sh" --size "Standard_F8s_v2"
 ```
@@ -74,3 +72,14 @@ az servicebus namespace authorization-rule keys list -g $group --namespace-name 
 ```
 
 For better performance, add a Private Endpoint.
+
+
+export MAVEN_OPTS="-Xms256m -Xmx10g"
+
+
+## References
+
+- [Service Bus Messaging Exceptions](https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-exceptions)
+- [Service Bus Java SDK 7.11.0](https://azuresdkdocs.blob.core.windows.net/$web/java/azure-messaging-servicebus/7.11.0/index.html)
+- [Service Bus Java SDK](https://learn.microsoft.com/en-us/java/api/overview/azure/messaging-servicebus-readme?view=azure-java-stable)
+- [Private Link Service](https://learn.microsoft.com/en-us/azure/service-bus-messaging/private-link-service)
