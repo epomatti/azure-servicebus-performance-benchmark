@@ -1,34 +1,14 @@
 # Azure Service Bus Benchmark
 
-Create the `app.properties`:
+Benchmarking sample code for Service Bus using the Java SDK.
 
-```sh
-$ touch app.properties
-```
+Requirements:
+- JDK 17
+- Maven latest version
 
-Enter the properties:
+## 💻 Local Development
 
-```properties
-app.servicebus.connection_string=Endpoint=sb://{BUS_NAME}.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey={KEY}
-app.servicebus.queue=benchmark-queue
-app.servicebus.max_concurrent_calls=100
-app.servicebus.prefetch_count=100
-
-app.init_consumer=true
-app.init_sender=true
-app.sender_threads=100
-app.message_quantity=10000
-app.message_body_bytes=1024
-```
-
-
-```sh
-mvn install
-
-# Must be greater than "maxConcurrentCalls"
-mvn exec:java -Dreactor.schedulers.defaultBoundedElasticSize=300
-```
-
+Start by creating the Service Bus namespace:
 
 ```sh
 location="brazilsouth"
@@ -42,13 +22,55 @@ az servicebus queue create -n "benchmark-queue" --namespace-name $namespace -g $
 az servicebus namespace authorization-rule keys list -g $group --namespace-name $namespace --name "RootManageSharedAccessKey" --query "primaryConnectionString" -o tsv
 ```
 
+Create the `app.properties`:
 
 ```sh
-az vm create -n "vm-benchmark" -g "rg-benchmark" --location "brazilsouth" --image "UbuntuLTS" --custom-data "cloud-init.sh" --size "Standard_F8s_v2"
+$ touch app.properties
 ```
 
+Add the required properties to the file:
+
+```properties
+# Connectivity
+app.servicebus.connection_string=Endpoint=sb://{BUS_NAME}.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey={KEY}
+app.servicebus.queue=benchmark-queue
+
+# Control active modules
+app.init_consumer=true
+app.init_sender=true
+
+# Consumer
+app.servicebus.max_concurrent_calls=100
+app.servicebus.prefetch_count=100
+
+# Producer
+app.sender_threads=100
+app.message_quantity=10000
+app.message_body_bytes=1024
+```
+
+Start the app:
+
 ```sh
-ssh pomatti@<public-ip>
+mvn install
+
+# Must be greater than "maxConcurrentCalls"
+mvn exec:java -Dreactor.schedulers.defaultBoundedElasticSize=300
+```
+
+
+## 🚀 Cloud Benchmark
+
+Ramp up a jump box VM for dedicated performance:
+
+```sh
+az vm create -n "vm-benchmark" -g "rg-benchmark" --location "brazilsouth" --image "UbuntuLTS" --custom-data cloud-init.sh --size "Standard_F8s_v2"
+```
+
+Connect to the VM:
+
+```sh
+ssh <user>@<public-ip>
 ```
 
 Check if cloud init ran correctly:
@@ -59,6 +81,7 @@ java --version
 
 If Java is not installed, check cloud init logs or install `cloud-init.sh` manually.
 
+Create a **Premium** namespace:
 
 ```sh
 location="brazilsouth"
@@ -71,10 +94,13 @@ az servicebus queue create -n "benchmark-queue" --namespace-name $namespace -g $
 az servicebus namespace authorization-rule keys list -g $group --namespace-name $namespace --name "RootManageSharedAccessKey" --query "primaryConnectionString" -o tsv
 ```
 
-For better performance, add a Private Endpoint.
+For better performance, add a [Private Endpoint](https://learn.microsoft.com/en-us/azure/service-bus-messaging/private-link-service).
 
+To control Java memory and other fine-tunning configurations:
 
+```sh
 export MAVEN_OPTS="-Xms256m -Xmx10g"
+```
 
 
 ## References
