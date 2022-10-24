@@ -63,7 +63,7 @@ mvn exec:java -Dreactor.schedulers.defaultBoundedElasticSize=100
 Ramp up a jump box VM for dedicated performance:
 
 ```sh
-az vm create -n "vm-benchmark" -g "rg-benchmark" --location "brazilsouth" --image "UbuntuLTS" --custom-data cloud-init.sh --size "Standard_F8s_v2"
+az vm create -n "vm-benchmark" -g "rg-benchmark" --location "brazilsouth" --image "UbuntuLTS" --custom-data cloud-init.sh --size "Standard_F8s_v2" --public-ip-sku "Standard"
 ```
 
 Connect to the VM:
