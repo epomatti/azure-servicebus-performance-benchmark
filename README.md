@@ -43,8 +43,8 @@ app.message_quantity=10000
 app.message_body_bytes=1024
 
 # Consumer
-app.servicebus.concurrent_clients=5
-app.servicebus.max_concurrent_calls=100
+app.servicebus.concurrent_clients=3
+app.servicebus.max_concurrent_calls=20
 app.servicebus.prefetch_count=100
 ```
 
@@ -52,7 +52,7 @@ Start the app:
 
 ```sh
 mvn install
-mvn exec:java -Dreactor.schedulers.defaultBoundedElasticSize=300
+mvn exec:java -Dreactor.schedulers.defaultBoundedElasticSize=100
 ```
 
 > ℹ️ Due to [this known issue](https://github.com/Azure/azure-sdk-for-java/issues/30483), `defaultBoundedElasticSize` needs to be set for Reactor. Value must be greater than "maxConcurrentCalls".
