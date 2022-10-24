@@ -6,8 +6,10 @@
     </encoder>
   </appender>
 
+  <logger name="com.azure" level="WARN" /> 
+
   <root level="info">
     <appender-ref ref="STDOUT" />
   </root>
-
+  
 </configuration>

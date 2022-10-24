@@ -38,13 +38,14 @@ app.init_sender=true
 app.init_consumer=false
 
 # Producer / Sender
-app.sender_threads=100
+app.sender_concurrent_clients=3
+app.sender_threads=10
 app.message_quantity=10000
 app.message_body_bytes=1024
 
 # Consumer
-app.servicebus.concurrent_clients=3
-app.servicebus.max_concurrent_calls=20
+app.servicebus.concurrent_clients=5
+app.servicebus.max_concurrent_calls=50
 app.servicebus.prefetch_count=100
 ```
 
@@ -113,6 +114,12 @@ To control Java memory and other fine-tunning configurations:
 export MAVEN_OPTS="-Xms256m -Xmx10g"
 ```
 
+```sh
+mvn install
+mvn exec:java -Dlogback.configurationFile="logback-benchmark.xml" -Dreactor.schedulers.defaultBoundedElasticSize=100
+
+-Dlogging.config=
+```
 
 ## References
 

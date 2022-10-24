@@ -40,7 +40,9 @@ public class MessageMachine {
 
       logger.info(String.format("Total messages sent: %s", messageQuantity));
       logger.info(String.format("Duration: %s seconds", durationInSeconds));
-      logger.info(String.format("Throughput: %s messages/sec", messageQuantity / durationInSeconds));
+      if (durationInSeconds > 0) {
+        logger.info(String.format("Throughput: %s messages/sec", messageQuantity / durationInSeconds));
+      }
 
     } catch (Exception e) {
       throw new RuntimeException(e);
@@ -49,14 +51,11 @@ public class MessageMachine {
   }
 
   private Set<Integer> getLargeDataset() {
-    logger.info("Started building datasource");
     Set<Integer> counter = new HashSet<>();
     Integer qty = Integer.parseInt(Config.getProperty("app.message_quantity"));
     for (int i = 0; i < qty; i++) {
       counter.add(i);
     }
-    logger.info(counter.size() + "");
-    logger.info("Finished building datasource");
     return counter;
   }
 
