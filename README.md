@@ -11,7 +11,7 @@ Start by creating the Service Bus namespace:
 ```sh
 location="brazilsouth"
 group="rg-benchmark"
-namespace="bus-<YOUR NAMESPACE NAME>"
+namespace="bus-benchmark-999" # change to a unique name
 
 az group create -n $group -l $location
 az servicebus namespace create --sku "Standard" -n $namespace -g $group -l $location
@@ -34,17 +34,17 @@ app.servicebus.connection_string=Endpoint=sb://{BUS_NAME}.servicebus.windows.net
 app.servicebus.queue=benchmark-queue
 
 # Control active modules
-app.init_consumer=true
 app.init_sender=true
+app.init_consumer=false
+
+# Producer / Sender
+app.sender_threads=100
+app.message_quantity=10000
+app.message_body_bytes=1024
 
 # Consumer
 app.servicebus.max_concurrent_calls=100
 app.servicebus.prefetch_count=100
-
-# Producer
-app.sender_threads=100
-app.message_quantity=10000
-app.message_body_bytes=1024
 ```
 
 Start the app:
