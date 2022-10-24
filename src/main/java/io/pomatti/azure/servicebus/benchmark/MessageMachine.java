@@ -36,8 +36,12 @@ public class MessageMachine {
       })).get();
       Instant ends = Instant.now();
 
+      long durationInSeconds = Duration.between(starts, ends).toMillis() / 1000;
+
       logger.info(String.format("Total messages sent: %s", messageQuantity));
-      logger.info(String.format("Duration: %s ms", Duration.between(starts, ends).toMillis()));
+      logger.info(String.format("Duration: %s seconds", durationInSeconds));
+      logger.info(String.format("Throughput: %s messages/sec", messageQuantity / durationInSeconds));
+
     } catch (Exception e) {
       throw new RuntimeException(e);
     }

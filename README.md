@@ -86,6 +86,8 @@ To load Maven in to the session:
 source /etc/profile.d/maven.sh
 ```
 
+Clone the application from GitHub. You'll need an SSH Key or login with credentials.
+
 Create a **Premium** namespace:
 
 ```sh
