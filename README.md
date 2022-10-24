@@ -121,7 +121,17 @@ mvn exec:java -Dlogback.configurationFile="logback-benchmark.xml" -Dreactor.sche
 
 ## 📈 Benchmark Results
 
+While sending messages to a Premium namespace with 1x MU it was possible to achieve consistent 5.000+ messages / second.
 
+No doubt it can be increased, specially if using batches, as this test was done using a single message per send operation.
+
+Message count:
+
+<img src=".assets/sender_benchmark.png" width=300 />
+
+Namespace resources:
+
+<img src=".assets/sender_resources.png" width=400 />
 
 ## References
 
