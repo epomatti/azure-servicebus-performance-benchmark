@@ -43,6 +43,7 @@ app.message_quantity=10000
 app.message_body_bytes=1024
 
 # Consumer
+app.servicebus.concurrent_clients=5
 app.servicebus.max_concurrent_calls=100
 app.servicebus.prefetch_count=100
 ```

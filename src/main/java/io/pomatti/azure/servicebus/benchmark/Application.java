@@ -6,11 +6,14 @@ public class Application {
 
     boolean initConsumer = Boolean.parseBoolean(Config.getProperty("app.init_consumer"));
     boolean initSender = Boolean.parseBoolean(Config.getProperty("app.init_sender"));
+    int consumerConcurrentClients = Integer.parseInt(Config.getProperty("app.servicebus.concurrent_clients"));
 
     if (initConsumer) {
-      var consumer = new ServiceBusConsumer();
-      consumer.start();
-      Runtime.getRuntime().addShutdownHook(new ShutdownThread(consumer));
+      for (int i = 0; i < consumerConcurrentClients; i++) {
+        var consumer = new ServiceBusConsumer();
+        consumer.start();
+        Runtime.getRuntime().addShutdownHook(new ShutdownThread(consumer));
+      }
     }
 
     if (initSender) {
