@@ -80,6 +80,12 @@ java --version
 
 If Java is not installed, check cloud init logs or install [`cloud-init.sh`](./cloud-init.sh) manually.
 
+To load Maven in to the session:
+
+```sh
+source /etc/profile.d/maven.sh
+```
+
 Create a **Premium** namespace:
 
 ```sh

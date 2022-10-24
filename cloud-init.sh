@@ -13,11 +13,13 @@ sudo apt-get install temurin-17-jdk -y
 wget https://dlcdn.apache.org/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.tar.gz
 sudo tar xzf apache-maven-3.8.6-bin.tar.gz -C /opt
 sudo ln -s /opt/apache-maven-3.8.6 /opt/maven
-sudo vi /etc/profile.d/maven.sh
 
-export JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64
-export M2_HOME=/opt/maven
-export MAVEN_HOME=/opt/maven
-export PATH=${M2_HOME}/bin:${PATH}
+maven_file="/etc/profile.d/maven.sh"
+sudo touch $maven_file
 
-source /etc/profile.d/maven.sh
+echo "export JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64" >> $maven_file
+echo "export M2_HOME=/opt/maven" >> $maven_file
+echo "export MAVEN_HOME=/opt/maven" >> $maven_file
+echo "export PATH=${M2_HOME}/bin:${PATH}" >> $maven_file
+
+source $maven_file
