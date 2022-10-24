@@ -78,7 +78,7 @@ Check if the cloud-init script ran correctly:
 java --version
 ```
 
-If Java is not installed, check cloud init logs or install [`cloud-init.sh`](./cloud-init.sh) manually.
+If Java is not installed, check cloud init logs (/var/log/cloud-init-output.log) or install [`cloud-init.sh`](./cloud-init.sh) manually.
 
 To load Maven in to the session:
 
