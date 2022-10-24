@@ -17,9 +17,9 @@ sudo ln -s /opt/apache-maven-3.8.6 /opt/maven
 maven_file="/etc/profile.d/maven.sh"
 sudo touch $maven_file
 
-echo "export JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64" >> $maven_file
-echo "export M2_HOME=/opt/maven" >> $maven_file
-echo "export MAVEN_HOME=/opt/maven" >> $maven_file
-echo "export PATH=${M2_HOME}/bin:${PATH}" >> $maven_file
+sudo echo "export JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64" >> $maven_file
+sudo echo "export M2_HOME=/opt/maven" >> $maven_file
+sudo echo "export MAVEN_HOME=/opt/maven" >> $maven_file
+sudo echo 'export PATH=${M2_HOME}/bin:${PATH}' >> $maven_file
 
 source $maven_file
