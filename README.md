@@ -111,15 +111,17 @@ For better performance, add a [Private Endpoint](https://learn.microsoft.com/en-
 To control Java memory and other fine-tunning configurations:
 
 ```sh
-export MAVEN_OPTS="-Xms256m -Xmx10g"
+export MAVEN_OPTS="-Xms256m -Xmx12g"
 ```
 
 ```sh
 mvn install
-mvn exec:java -Dlogback.configurationFile="logback-benchmark.xml" -Dreactor.schedulers.defaultBoundedElasticSize=100
-
--Dlogging.config=
+mvn exec:java -Dlogback.configurationFile="logback-benchmark.xml" -Dreactor.schedulers.defaultBoundedElasticSize=1200
 ```
+
+## 📈 Benchmark Results
+
+
 
 ## References
 

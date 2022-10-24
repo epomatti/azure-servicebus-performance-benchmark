@@ -20,6 +20,7 @@ public class Application {
         var consumer = new ServiceBusConsumer();
         consumer.start();
         Runtime.getRuntime().addShutdownHook(new ShutdownThread(consumer));
+        logger.info(String.format("Started Consumer thread %s", i));
       }
     }
 
@@ -27,8 +28,7 @@ public class Application {
       for (int i = 0; i < senderConcurrentClients; i++) {
         var sender = new SenderThread();
         sender.start();
-        // sender.join();
-        logger.info(String.format("Started thread %s", i));
+        logger.info(String.format("Started Sender thread %s", i));
       }
     }
   }
