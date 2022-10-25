@@ -40,7 +40,7 @@ app.init_consumer=false
 # Producer / Sender
 app.sender_concurrent_clients=3
 app.sender_threads=10
-app.message_quantity=1000
+app.message_quantity=10000
 app.message_body_bytes=1024
 
 # Consumer
