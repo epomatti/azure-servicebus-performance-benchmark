@@ -111,7 +111,7 @@ For better performance, add a [Private Endpoint](https://learn.microsoft.com/en-
 To control Java memory and other fine-tunning configurations:
 
 ```sh
-export MAVEN_OPTS="-Xms256m -Xmx12g"
+export MAVEN_OPTS="-Xms256m -Xmx16g"
 ```
 
 ```sh
