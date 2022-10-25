@@ -2,7 +2,7 @@
 
 Benchmarking sample code for Service Bus using the Java SDK.
 
-> ℹ️ Recommended requirements are JDK 17 LTS and Maven latest version.
+> Recommended requirements are JDK 17 LTS and Maven latest version.
 
 ## 💻 Local Development
 
