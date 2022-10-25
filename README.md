@@ -40,12 +40,12 @@ app.init_consumer=false
 # Producer / Sender
 app.sender_concurrent_clients=3
 app.sender_threads=10
-app.message_quantity=10000
+app.message_quantity=1000
 app.message_body_bytes=1024
 
 # Consumer
-app.servicebus.concurrent_clients=5
-app.servicebus.max_concurrent_calls=50
+app.servicebus.concurrent_clients=3
+app.servicebus.max_concurrent_calls=30
 app.servicebus.prefetch_count=100
 ```
 
@@ -108,7 +108,7 @@ To control Java memory and other fine-tunning configurations:
 export MAVEN_OPTS="-Xms256m -Xmx16g"
 ```
 
-Create the `app.properties` file as explained in the previous section.
+Create the `app.properties` file as explained in the previous section. Tune the concurrency according to your requirements.
 
 Run the application:
 
