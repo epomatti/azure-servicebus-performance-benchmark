@@ -10,7 +10,7 @@ Start by creating the Service Bus namespace:
 
 ```sh
 location="brazilsouth"
-group="rg-benchmark"
+group="rg-servicebus-benchmark"
 namespace="bus-benchmark-999" # change to a unique name
 
 az group create -n $group -l $location
@@ -64,7 +64,7 @@ mvn exec:java -Dreactor.schedulers.defaultBoundedElasticSize=100
 Ramp up a jump box VM for dedicated performance:
 
 ```sh
-az vm create -n "vm-benchmark" -g "rg-benchmark" --location "brazilsouth" --image "UbuntuLTS" --custom-data cloud-init.sh --size "Standard_D8s_v4" --public-ip-sku "Standard"
+az vm create -n "vm-benchmark" -g "rg-servicebus-benchmark" --location "brazilsouth" --image "UbuntuLTS" --custom-data cloud-init.sh --size "Standard_D8s_v4" --public-ip-sku "Standard"
 ```
 
 Connect to the VM:
@@ -89,7 +89,7 @@ Create a **Premium** namespace:
 
 ```sh
 location="brazilsouth"
-group="rg-benchmark"
+group="rg-servicebus-benchmark"
 namespace="bus-benchmark-999-premium"
 
 az servicebus namespace create --sku "Premium" -n $namespace -g $group -l $location
