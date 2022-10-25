@@ -3,6 +3,8 @@
 sudo apt-get update
 sudo apt-get upgrade -y
 
+### JDK
+
 sudo apt-get install -y wget apt-transport-https gnupg
 sudo wget -O - https://packages.adoptium.net/artifactory/api/gpg/key/public | sudo apt-key add -
 sudo echo "deb https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release) main" | sudo tee /etc/apt/sources.list.d/adoptium.list
@@ -10,16 +12,21 @@ sudo echo "deb https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSIO
 sudo apt-get update
 sudo apt-get install temurin-17-jdk -y
 
-wget https://dlcdn.apache.org/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.tar.gz
-sudo tar xzf apache-maven-3.8.6-bin.tar.gz -C /opt
-sudo ln -s /opt/apache-maven-3.8.6 /opt/maven
+### Maven
+
+maven_version="3.8.6"
+wget "https://dlcdn.apache.org/maven/maven-3/$maven_version/binaries/apache-maven-$maven_version-bin.tar.gz"
+sudo tar xzf "apache-maven-$maven_version-bin.tar.gz" -C /opt
+sudo ln -s "/opt/apache-maven-$maven_version" /opt/maven
 
 maven_file="/etc/profile.d/maven.sh"
-sudo touch $maven_file
+wget https://raw.githubusercontent.com/epomatti/azure-servicebus-java-benchmark/main/maven.sh -O $maven_file
 
-sudo echo "export JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64" >> $maven_file
-sudo echo "export M2_HOME=/opt/maven" >> $maven_file
-sudo echo "export MAVEN_HOME=/opt/maven" >> $maven_file
-sudo echo 'export PATH=${M2_HOME}/bin:${PATH}' >> $maven_file
+sudo echo "source $maven_file" >> ~/.profile
 
-source $maven_file
+# sudo echo "export JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64" >> $maven_file
+# sudo echo "export M2_HOME=/opt/maven" >> $maven_file
+# sudo echo "export MAVEN_HOME=/opt/maven" >> $maven_file
+# sudo echo 'export PATH=${M2_HOME}/bin:${PATH}' >> $maven_file
+
+# source $maven_file
