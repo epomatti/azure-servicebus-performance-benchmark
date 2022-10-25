@@ -77,15 +77,11 @@ Check if the cloud-init script ran correctly:
 
 ```sh
 java --version
+mvn --version
 ```
 
-If Java is not installed, check cloud init logs (/var/log/cloud-init-output.log) or install [`cloud-init.sh`](./cloud-init.sh) manually.
+If Java or Maven are not installed, check cloud init logs (/var/log/cloud-init-output.log) or install [`cloud-init.sh`](./cloud-init.sh) manually.
 
-To load Maven in to the session:
-
-```sh
-source /etc/profile.d/maven.sh
-```
 
 Clone the application from GitHub. You'll need an SSH Key or login with credentials.
 
@@ -102,8 +98,6 @@ az servicebus queue create -n "benchmark-queue" --namespace-name $namespace -g $
 az servicebus namespace authorization-rule keys list -g $group --namespace-name $namespace --name "RootManageSharedAccessKey" --query "primaryConnectionString" -o tsv
 ```
 
-Create the `app.properties` file as explained in the previous section.
-
 For better performance, add a [Private Endpoint](https://learn.microsoft.com/en-us/azure/service-bus-messaging/private-link-service) and attach it to the VM subnet.
 
 > ℹ️ When using Private Endpoints you don't need to change the URL. Use the same public FQDN, Azure will take care of the routing. Test it with `nslookup`.
@@ -113,6 +107,10 @@ To control Java memory and other fine-tunning configurations:
 ```sh
 export MAVEN_OPTS="-Xms256m -Xmx16g"
 ```
+
+Create the `app.properties` file as explained in the previous section.
+
+Run the application:
 
 ```sh
 mvn install
