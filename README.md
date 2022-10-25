@@ -2,7 +2,7 @@
 
 Benchmarking sample code for Service Bus using the Java SDK.
 
-Recommended requirements are JDK 17 LTS and Maven latest version.
+> ℹ️ Recommended requirements are JDK 17 LTS and Maven latest version.
 
 ## 💻 Local Development
 
@@ -136,6 +136,6 @@ Namespace resources:
 ## References
 
 - [Service Bus Messaging Exceptions](https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-exceptions)
-- [Service Bus Java SDK 7.11.0](https://azuresdkdocs.blob.core.windows.net/$web/java/azure-messaging-servicebus/7.11.0/index.html)
-- [Service Bus Java SDK](https://learn.microsoft.com/en-us/java/api/overview/azure/messaging-servicebus-readme?view=azure-java-stable)
+- [Service Bus Java SDK 7.11.0 Javadocs](https://azuresdkdocs.blob.core.windows.net/$web/java/azure-messaging-servicebus/7.11.0/index.html)
+- [Service Bus Java SDK Guidelines](https://learn.microsoft.com/en-us/java/api/overview/azure/messaging-servicebus-readme?view=azure-java-stable)
 - [Private Link Service](https://learn.microsoft.com/en-us/azure/service-bus-messaging/private-link-service)
