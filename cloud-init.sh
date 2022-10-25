@@ -22,11 +22,5 @@ sudo ln -s "/opt/apache-maven-$maven_version" /opt/maven
 maven_file="/etc/profile.d/maven.sh"
 wget https://raw.githubusercontent.com/epomatti/azure-servicebus-java-benchmark/main/maven.sh -O $maven_file
 
+sudo echo -e "\n" >> ~/.profile
 sudo echo "source $maven_file" >> ~/.profile
-
-# sudo echo "export JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64" >> $maven_file
-# sudo echo "export M2_HOME=/opt/maven" >> $maven_file
-# sudo echo "export MAVEN_HOME=/opt/maven" >> $maven_file
-# sudo echo 'export PATH=${M2_HOME}/bin:${PATH}' >> $maven_file
-
-# source $maven_file
