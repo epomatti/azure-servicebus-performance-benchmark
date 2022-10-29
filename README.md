@@ -95,7 +95,7 @@ group="rg-servicebus-benchmark"
 namespace="bus-benchmark-999-premium"
 
 az servicebus namespace create --sku "Premium" -n $namespace -g $group -l $location
-az servicebus queue create -n "benchmark-queue" --namespace-name $namespace -g $group --max-size 5120 --enable-partitioning true
+az servicebus queue create -n "benchmark-queue" --namespace-name $namespace -g $group --max-size 81920 --enable-partitioning true
 
 az servicebus namespace authorization-rule keys list -g $group --namespace-name $namespace --name "RootManageSharedAccessKey" --query "primaryConnectionString" -o tsv
 ```
@@ -121,7 +121,9 @@ mvn exec:java -Dlogback.configurationFile="logback-benchmark.xml" -Dreactor.sche
 
 ## 📈 Benchmarking Results
 
-While sending messages to a Premium namespace with 1x MU it was possible to achieve consistent 5.000+ messages / second. No doubt it can be increased, specially if using batches, as this test was done using a single message per send operation.
+While sending messages to a Premium namespace with 1x MU it was possible to achieve:
+- 5.000+ messages / second for single messages
+- 10.000+ messages / send for batch messages
 
 Message count:
 
