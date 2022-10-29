@@ -42,6 +42,8 @@ app.sender_concurrent_clients=3
 app.sender_threads=10
 app.message_quantity=10000
 app.message_body_bytes=1024
+app.use_batch=true
+app.batch_size=10
 
 # Consumer
 app.servicebus.concurrent_clients=3

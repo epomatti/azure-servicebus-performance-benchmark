@@ -15,13 +15,17 @@ public class MessageMachine {
 
   ServiceBusSender sender;
 
+  private Boolean useBatch;
+  private Integer batchSize;
+
   public MessageMachine(ServiceBusSender sender) {
     this.sender = sender;
+    this.useBatch = Boolean.parseBoolean(Config.getProperty("app.use_batch"));
+    this.batchSize = Integer.parseInt(Config.getProperty("app.batch_size"));
   }
 
   public void start() throws RuntimeException {
     Set<Integer> dataset = getLargeDataset();
-    var messageQuantity = dataset.size();
     var messageBodyBytes = Integer.parseInt(Config.getProperty("app.message_body_bytes"));
 
     final String body = "8".repeat(messageBodyBytes);
@@ -32,12 +36,17 @@ public class MessageMachine {
     Instant starts = Instant.now();
     try {
       pool.submit(() -> dataset.stream().parallel().forEach(i -> {
-        sender.send(body);
+        if (useBatch) {
+          sender.sendBach(body, batchSize);
+        } else {
+          sender.send(body);
+        }
       })).get();
       Instant ends = Instant.now();
 
       long durationInSeconds = Duration.between(starts, ends).toMillis() / 1000;
 
+      var messageQuantity = useBatch ? dataset.size() * batchSize : dataset.size();
       logger.info(String.format("Total messages sent: %s", messageQuantity));
       logger.info(String.format("Duration: %s seconds", durationInSeconds));
       if (durationInSeconds > 0) {
@@ -53,6 +62,9 @@ public class MessageMachine {
   private Set<Integer> getLargeDataset() {
     Set<Integer> counter = new HashSet<>();
     Integer qty = Integer.parseInt(Config.getProperty("app.message_quantity"));
+    if (useBatch) {
+      qty = qty / batchSize;
+    }
     for (int i = 0; i < qty; i++) {
       counter.add(i);
     }
