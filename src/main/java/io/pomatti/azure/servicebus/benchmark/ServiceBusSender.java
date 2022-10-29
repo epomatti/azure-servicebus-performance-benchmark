@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import com.azure.messaging.servicebus.ServiceBusClientBuilder;
 import com.azure.messaging.servicebus.ServiceBusMessage;
+import com.azure.messaging.servicebus.ServiceBusMessageBatch;
 import com.azure.messaging.servicebus.ServiceBusSenderClient;
 
 public class ServiceBusSender implements Closeable {
@@ -32,6 +33,14 @@ public class ServiceBusSender implements Closeable {
 
   public void send(String body) {
     client.sendMessage(new ServiceBusMessage(body));
+  }
+
+  public void sendBach(String body, int size) {
+    ServiceBusMessageBatch batch = client.createMessageBatch();
+    for (int i = 0; i < size; i++) {
+      batch.tryAddMessage(new ServiceBusMessage(body));
+    }
+    client.sendMessages(batch);
   }
 
   public void close() {
