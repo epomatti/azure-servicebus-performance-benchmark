@@ -1,5 +1,8 @@
 #!/bin/bash
 
+export DEBIAN_FRONTEND=noninteractive
+export NEEDRESTART_MODE=a
+
 sudo apt-get update
 sudo apt-get upgrade -y
 
@@ -14,7 +17,7 @@ sudo apt-get install temurin-17-jdk -y
 
 ### Maven
 
-maven_version="3.8.6"
+maven_version="3.9.3"
 wget "https://dlcdn.apache.org/maven/maven-3/$maven_version/binaries/apache-maven-$maven_version-bin.tar.gz"
 sudo tar xzf "apache-maven-$maven_version-bin.tar.gz" -C /opt
 sudo ln -s "/opt/apache-maven-$maven_version" /opt/maven
