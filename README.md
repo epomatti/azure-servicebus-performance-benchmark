@@ -86,7 +86,27 @@ To control Java memory and JVM configurations:
 export MAVEN_OPTS="-Xms256m -Xmx16g"
 ```
 
-Create the `app.properties` file as shown the previous section. Tune the concurrency according to your requirements.
+Download the application code:
+
+```sh
+curl -L https://github.com/epomatti/azure-servicebus-performance-benchmark/archive/refs/tags/v0.0.1.tar.gz -o client.tar.gz
+tar -xf client.tar.gz
+```
+
+From the application root, create the properties file:
+
+```sh
+cp config/template.app.properties app.properties
+
+# Edit with the real connection string of the Premium namespace
+nano app.properties
+```
+
+Change the application properties of the client for a high volume load test. Example:
+
+```
+app.message_quantity=1000000
+```
 
 Run the application:
 
