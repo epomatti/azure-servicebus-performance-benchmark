@@ -18,7 +18,7 @@ az deployment sub create \
 Get the connection string for the namespace:
 
 ```sh
-az servicebus namespace authorization-rule keys list -g "rg-servicebus-benchmark" --namespace-name "bus-benchmark-999" --name "RootManageSharedAccessKey" --query "primaryConnectionString" -o tsv
+az servicebus namespace authorization-rule keys list -g "rg-servicebus-benchmark-dev" --namespace-name "bus-benchmark-999-dev" --name "RootManageSharedAccessKey" --query "primaryConnectionString" -o tsv
 ```
 
 Create the `app.properties` in the root folder from the template:
@@ -53,7 +53,7 @@ Run the benchmark in the cloud with a Premium namespace.
 Create the jump box VM for dedicated performance. You'll run the client from this machine.
 
 ```sh
-az vm create -n "vm-benchmark" -g "rg-servicebus-benchmark" --location "brazilsouth" --image "Ubuntu2204" --custom-data cloud-init.sh --size "Standard_D8s_v4" --public-ip-sku "Standard"
+az vm create -n "vm-benchmark" -g "rg-servicebus-benchmark-premium" --location "brazilsouth" --image "Ubuntu2204" --custom-data cloud-init.sh --size "Standard_D8s_v4" --public-ip-sku "Standard"
 ```
 
 Check if the cloud-init script executed correctly:
@@ -69,15 +69,16 @@ Get the application code from GitHub via a release archive or cloning (requires 
 Create the **Premium** namespace:
 
 ```sh
-az deployment group create \
-  --resource-group rg-servicebus-benchmark \
-  --template-file azure/premium/main.bicep
+az deployment sub create \
+  --location brazilsouth \
+  --template-file azure/premium/main.bicep \
+  --parameters rgLocation=brazilsouth
 ```
 
 Get the connection string:
 
 ```sh
-az servicebus namespace authorization-rule keys list -g "rg-servicebus-benchmark" --namespace-name "bus-benchmark-999-premium" --name "RootManageSharedAccessKey" --query "primaryConnectionString" -o tsv
+az servicebus namespace authorization-rule keys list -g "rg-servicebus-benchmark-premium" --namespace-name "bus-benchmark-999-premium" --name "RootManageSharedAccessKey" --query "primaryConnectionString" -o tsv
 ```
 
 To control Java memory and JVM configurations:
@@ -119,10 +120,10 @@ mvn exec:java -Dlogback.configurationFile="logback-benchmark.xml" -Dreactor.sche
 
 Average numbers collected during the tests:
 
-| Tier           | Message Units      | Send mode | Messages / Sec |
-|----------------|-------|-----------|----------------|
-| Premium        | 1x    |Single     | 5,000          |
-| Premium        | 1x    | Batch     | 10,000         |
+| Tier           | Message Units | Send mode | Messages / Sec |
+|----------------|---------------|-----------|----------------|
+| Premium        | 1x            | Single    | 5,000          |
+| Premium        | 1x            | Batch     | 10,000         |
 
 
 Sample:

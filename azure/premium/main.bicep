@@ -1,18 +1,36 @@
-param location string = resourceGroup().location
+targetScope = 'subscription'
 
-resource serviceBusNamespace 'Microsoft.ServiceBus/namespaces@2022-01-01-preview' = {
-  name: 'bus-benchmark-999-premium'
-  location: location
-  sku: {
-    name: 'Premium'
+@description('Location for all resources.')
+param rgLocation string
+
+resource rg 'Microsoft.Resources/resourceGroups@2022-09-01' = {
+  name: 'rg-servicebus-benchmark-premium'
+  location: rgLocation
+}
+
+module network './network.bicep' = {
+  name: 'networkDeploment'
+  scope: rg
+  params: {
+    location: rg.location
   }
 }
 
-resource serviceBusQueue 'Microsoft.ServiceBus/namespaces/queues@2022-01-01-preview' = {
-  parent: serviceBusNamespace
-  name: 'benchmark-queue'
-  properties: {
-    enablePartitioning: true
-    maxSizeInMegabytes: 81920
+module bus './servicebus.bicep' = {
+  name: 'servicebusPremiumDeployment'
+  scope: rg
+  params: {
+    location: rg.location
+  }
+}
+
+module privatelink './privatelink.bicep' = {
+  name: 'privateLinkDeployment'
+  scope: rg
+  params: {
+    location: rg.location
+    vnetId: network.outputs.vnetId
+    subnetId: network.outputs.subnetId
+    namespaceId: bus.outputs.namespaceId
   }
 }

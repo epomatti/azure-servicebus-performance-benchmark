@@ -2,10 +2,12 @@
 param location string
 
 resource serviceBusNamespace 'Microsoft.ServiceBus/namespaces@2022-01-01-preview' = {
-  name: 'bus-benchmark999-dev'
+  name: 'bus-benchmark-999-premium'
   location: location
   sku: {
-    name: 'Standard'
+    name: 'Premium'
+    tier: 'Premium'
+    capacity: 1
   }
 }
 
@@ -13,6 +15,9 @@ resource serviceBusQueue 'Microsoft.ServiceBus/namespaces/queues@2022-01-01-prev
   parent: serviceBusNamespace
   name: 'benchmark-queue'
   properties: {
-    enablePartitioning: true
+    enablePartitioning: false
+    maxSizeInMegabytes: 81920
   }
 }
+
+output namespaceId string = serviceBusNamespace.id
