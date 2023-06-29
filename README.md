@@ -1,54 +1,39 @@
 # Azure Service Bus Benchmark
 
-Benchmarking sample code for Service Bus using the Java SDK.
-
-> Recommended requirements are JDK 17 LTS and Maven latest version.
+Benchmarking the performance of Azure Service Bus using the Java SDK.
 
 ## 💻 Local Development
+
+Use this section to run the code locally prior to running it in the cloud.
 
 Start by creating the Service Bus namespace:
 
 ```sh
-location="brazilsouth"
-group="rg-servicebus-benchmark"
-namespace="bus-benchmark-999" # change to a unique name
+az deployment sub create \
+  --location brazilsouth \
+  --template-file azure/dev/main.bicep \
+  --parameters rgLocation=brazilsouth
+```
 
-az group create -n $group -l $location
-az servicebus namespace create --sku "Standard" -n $namespace -g $group -l $location
-az servicebus queue create -n "benchmark-queue" --namespace-name $namespace -g $group --enable-partitioning true
+Get the connection string for the namespace:
 
-az servicebus namespace authorization-rule keys list -g $group --namespace-name $namespace --name "RootManageSharedAccessKey" --query "primaryConnectionString" -o tsv
+```sh
+az servicebus namespace authorization-rule keys list -g "rg-servicebus-benchmark" --namespace-name "bus-benchmark-999" --name "RootManageSharedAccessKey" --query "primaryConnectionString" -o tsv
 ```
 
 Create the `app.properties` in the root folder:
 
 ```sh
-$ touch app.properties
+cp config/template.app.properties app.properties
 ```
 
-Add the required properties to the file:
+Update the `app.servicebus.connection_string` property with the real connection string.
 
-```properties
-# Connectivity
-app.servicebus.connection_string=Endpoint=sb://{BUS_NAME}.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey={KEY}
-app.servicebus.queue=benchmark-queue
+Install the latest stable Java:
 
-# Control active modules
-app.init_sender=true
-app.init_consumer=false
-
-# Producer / Sender
-app.sender_concurrent_clients=3
-app.sender_threads=10
-app.message_quantity=10000
-app.message_body_bytes=1024
-app.use_batch=true
-app.batch_size=10
-
-# Consumer
-app.servicebus.concurrent_clients=3
-app.servicebus.max_concurrent_calls=30
-app.servicebus.prefetch_count=100
+```sh
+sdk install maven
+sdk install java 17.0.7-tem
 ```
 
 Start the app:
@@ -63,39 +48,26 @@ mvn exec:java -Dreactor.schedulers.defaultBoundedElasticSize=100
 
 ## 🚀 Cloud Benchmark
 
+Run the benchmark in the cloud with a Premium namespace.
+
 Ramp up a jump box VM for dedicated performance:
 
 ```sh
 az vm create -n "vm-benchmark" -g "rg-servicebus-benchmark" --location "brazilsouth" --image "UbuntuLTS" --custom-data cloud-init.sh --size "Standard_D8s_v4" --public-ip-sku "Standard"
 ```
 
-Connect to the VM:
+Check if the cloud-init script executed correctly:
 
 ```sh
-ssh <user>@<public-ip>
+cloud-init status
 ```
 
-Check if the cloud-init script ran correctly:
+Clone the application from GitHub in the VM. You'll need an SSH Key or login with credentials.
+
+Create the **Premium** namespace:
 
 ```sh
-java --version
-mvn --version
-```
-
-If Java or Maven are not installed, check cloud init logs (/var/log/cloud-init-output.log) or install [`cloud-init.sh`](./cloud-init.sh) manually.
-
-
-Clone the application from GitHub. You'll need an SSH Key or login with credentials.
-
-Create a **Premium** namespace:
-
-```sh
-location="brazilsouth"
-group="rg-servicebus-benchmark"
-namespace="bus-benchmark-999-premium"
-
-az servicebus namespace create --sku "Premium" -n $namespace -g $group -l $location
-az servicebus queue create -n "benchmark-queue" --namespace-name $namespace -g $group --max-size 81920 --enable-partitioning true
+az deployment group create --resource-group powerapps --template-file main.bicep
 
 az servicebus namespace authorization-rule keys list -g $group --namespace-name $namespace --name "RootManageSharedAccessKey" --query "primaryConnectionString" -o tsv
 ```
