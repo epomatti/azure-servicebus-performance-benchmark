@@ -16,4 +16,3 @@ resource serviceBusQueue 'Microsoft.ServiceBus/namespaces/queues@2022-01-01-prev
     maxSizeInMegabytes: 81920
   }
 }
-

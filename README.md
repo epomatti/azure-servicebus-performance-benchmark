@@ -53,36 +53,38 @@ Run the benchmark in the cloud with a Premium namespace.
 Ramp up a jump box VM for dedicated performance:
 
 ```sh
-az vm create -n "vm-benchmark" -g "rg-servicebus-benchmark" --location "brazilsouth" --image "UbuntuLTS" --custom-data cloud-init.sh --size "Standard_D8s_v4" --public-ip-sku "Standard"
+az vm create -n "vm-benchmark" -g "rg-servicebus-benchmark" --location "brazilsouth" --image "Ubuntu2204" --custom-data cloud-init.sh --size "Standard_D8s_v4" --public-ip-sku "Standard"
 ```
 
 Check if the cloud-init script executed correctly:
 
 ```sh
+ssh <user>@<publicIp>
+
 cloud-init status
 ```
 
-Clone the application from GitHub in the VM. You'll need an SSH Key or login with credentials.
+Get the application code from GitHub via a release archive or cloning (requires login).
 
 Create the **Premium** namespace:
 
 ```sh
-az deployment group create --resource-group powerapps --template-file main.bicep
+az deployment group create --resource-group rg-servicebus-benchmark --template-file azure/premium/main.bicep
+```
 
+Get the connection string:
+
+```
 az servicebus namespace authorization-rule keys list -g $group --namespace-name $namespace --name "RootManageSharedAccessKey" --query "primaryConnectionString" -o tsv
 ```
 
-For better performance, add a [Private Endpoint](https://learn.microsoft.com/en-us/azure/service-bus-messaging/private-link-service) and attach it to the VM subnet.
-
-> ℹ️ When using Private Endpoints you don't need to change the URL. Use the same public FQDN, Azure will take care of the routing. Test it with `nslookup`.
-
-To control Java memory and other fine-tunning configurations:
+To control Java memory and JVM configurations:
 
 ```sh
 export MAVEN_OPTS="-Xms256m -Xmx16g"
 ```
 
-Create the `app.properties` file as explained in the previous section. Tune the concurrency according to your requirements.
+Create the `app.properties` file as shown the previous section. Tune the concurrency according to your requirements.
 
 Run the application:
 
