@@ -23,7 +23,7 @@ sudo tar xzf "apache-maven-$maven_version-bin.tar.gz" -C /opt
 sudo ln -s "/opt/apache-maven-$maven_version" /opt/maven
 
 maven_file="/etc/profile.d/maven.sh"
-wget https://raw.githubusercontent.com/epomatti/azure-servicebus-java-benchmark/main/maven.sh -O $maven_file
+sudo wget https://raw.githubusercontent.com/epomatti/azure-servicebus-performance-benchmark/main/maven.sh -O $maven_file
 
 sudo echo -e "\n" >> ~/.profile
 sudo echo "source $maven_file" >> ~/.profile

@@ -1,12 +1,12 @@
 # Azure Service Bus - Performance Benchmark
 
-Benchmarking the performance of Azure Service Bus using the Java SDK.
+Benchmarking the performance of Azure Service Bus on Standard and Premium tiers using the Java SDK.
 
 ## 💻 Local Development
 
-Use this section to run the code locally prior to running it in the cloud.
+You can use this section to run the code locally, prior to running it in the cloud.
 
-Start by creating the Service Bus namespace:
+Start by creating the Service Bus namespace using a Standard bus tier:
 
 ```sh
 az deployment sub create \
@@ -24,19 +24,18 @@ az servicebus namespace authorization-rule keys list -g "rg-servicebus-benchmark
 Create the `app.properties` in the root folder from the template:
 
 ```sh
+# Open the file and edit the "connection_string" property
 cp config/template.app.properties app.properties
 ```
 
-Update the `app.servicebus.connection_string` property with the real connection string.
-
-Install the latest stable Java:
+Install the latest stable Java in your local machine if you don't have it:
 
 ```sh
 sdk install maven
 sdk install java 17.0.7-tem
 ```
 
-Start the app:
+Run the benchmark client:
 
 ```sh
 mvn install
@@ -48,15 +47,13 @@ mvn exec:java -Dreactor.schedulers.defaultBoundedElasticSize=100
 
 ## 🚀 Cloud Benchmark
 
-Run the benchmark in the cloud with a Premium namespace.
+Run the benchmark in the cloud with a **Premium** namespace.
 
-First create the Linux VM SSH key pair:
+First, create the Linux VM SSH key pair:
 
 ```sh
 ssh-keygen -f azure/premium/id_rsa
 ```
-
-Edit the `id_rsa.pub` by removing the "windowsuser@computername" at the end.
 
 Now create the infrastructure for the benchmark:
 
@@ -64,7 +61,7 @@ Now create the infrastructure for the benchmark:
 az deployment sub create \
   --location brazilsouth \
   --template-file azure/premium/main.bicep \
-  --parameters rgLocation=brazilsouth vmUsername="bench" vmPassword=p4ssw0rd
+  --parameters rgLocation=brazilsouth vmUsername=bench vmPassword=p4ssw0rd
 ```
 
 Once the process is complete, connect to the VM and check if the `cloud-init` script executed correctly:
@@ -82,22 +79,17 @@ curl -L https://github.com/epomatti/azure-servicebus-performance-benchmark/archi
 tar -xf client.tar.gz
 ```
 
-Get the connection string:
-
-```sh
-az servicebus namespace authorization-rule keys list -g "rg-servicebus-benchmark-premium" --namespace-name "bus-benchmark-999-premium" --name "RootManageSharedAccessKey" --query "primaryConnectionString" -o tsv
-```
-
-To control Java memory and JVM configurations:
-
-```sh
-export MAVEN_OPTS="-Xms256m -Xmx16g"
-```
-
 From the application root, create the properties file:
 
 ```sh
 cp config/template.app.properties app.properties
+```
+
+Set up the Service Bus connectivity:
+
+```sh
+# Get the connection string (run this in your local machine)
+az servicebus namespace authorization-rule keys list -g "rg-servicebus-benchmark-premium" --namespace-name "bus-benchmark-999-premium" --name "RootManageSharedAccessKey" --query "primaryConnectionString" -o tsv
 
 # Edit with the real connection string of the Premium namespace
 nano app.properties
@@ -107,6 +99,12 @@ Change the application properties of the client for a high volume load test. Exa
 
 ```
 app.message_quantity=1000000
+```
+
+To control Java memory and JVM configurations:
+
+```sh
+export MAVEN_OPTS="-Xms256m -Xmx16g"
 ```
 
 Run the application:
@@ -120,19 +118,18 @@ mvn exec:java -Dlogback.configurationFile="logback-benchmark.xml" -Dreactor.sche
 
 Average numbers collected during the tests:
 
-| Tier           | Message Units | Send mode | Messages / Sec |
+| Tier           | Message Units | Send mode | Avg. messages / Sec |
 |----------------|---------------|-----------|----------------|
 | Premium        | 1x            | Single    | 5,000          |
-| Premium        | 1x            | Batch     | 10,000         |
-
-
-Sample:
-
-<img src=".assets/sender_benchmark.png" width=300 />
+| Premium        | 1x            | Batch     | 13,888         |
 
 Namespace resources:
 
-<img src=".assets/sender_resources.png" width=400 />
+<img src=".assets/sender_resources.png" width=500 />
+
+Sample:
+
+<img src=".assets/sender_benchmark.png" width=800 />
 
 ## References
 
