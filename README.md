@@ -76,8 +76,8 @@ az deployment group create \
 
 Get the connection string:
 
-```
-az servicebus namespace authorization-rule keys list -g $group --namespace-name $namespace --name "RootManageSharedAccessKey" --query "primaryConnectionString" -o tsv
+```sh
+az servicebus namespace authorization-rule keys list -g "rg-servicebus-benchmark" --namespace-name "bus-benchmark-999-premium" --name "RootManageSharedAccessKey" --query "primaryConnectionString" -o tsv
 ```
 
 To control Java memory and JVM configurations:
