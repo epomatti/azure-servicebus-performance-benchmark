@@ -1,4 +1,4 @@
-# Azure Service Bus Benchmark
+# Azure Service Bus - Performance Benchmark
 
 Benchmarking the performance of Azure Service Bus using the Java SDK.
 
