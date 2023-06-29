@@ -69,7 +69,9 @@ Get the application code from GitHub via a release archive or cloning (requires 
 Create the **Premium** namespace:
 
 ```sh
-az deployment group create --resource-group rg-servicebus-benchmark --template-file azure/premium/main.bicep
+az deployment group create \
+  --resource-group rg-servicebus-benchmark \
+  --template-file azure/premium/main.bicep
 ```
 
 Get the connection string:
