@@ -56,6 +56,8 @@ First create the Linux VM SSH key pair:
 ssh-keygen -f azure/premium/id_rsa
 ```
 
+Edit the `id_rsa.pub` by removing the "windowsuser@computername" at the end.
+
 Now create the infrastructure for the benchmark:
 
 ```sh
@@ -68,7 +70,7 @@ az deployment sub create \
 Once the process is complete, connect to the VM and check if the `cloud-init` script executed correctly:
 
 ```sh
-ssh -i ./azure/premium/id_rsa.pub bench@<publicIp>
+ssh -i ./azure/premium/id_rsa bench@<publicIp>
 
 cloud-init status
 ```

@@ -60,7 +60,7 @@ resource vm 'Microsoft.Compute/virtualMachines@2022-11-01' = {
         ssh: {
           publicKeys: [
             {
-              keyData: loadFileAsBase64('./id_rsa')
+              keyData: loadTextContent('./id_rsa.pub')
               path: '/home/${username}/.ssh/authorized_keys'
             }
           ]
