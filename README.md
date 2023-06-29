@@ -50,7 +50,7 @@ mvn exec:java -Dreactor.schedulers.defaultBoundedElasticSize=100
 
 Run the benchmark in the cloud with a Premium namespace.
 
-Ramp up a jump box VM for dedicated performance:
+Create the jump box VM for dedicated performance. You'll run the client from this machine.
 
 ```sh
 az vm create -n "vm-benchmark" -g "rg-servicebus-benchmark" --location "brazilsouth" --image "Ubuntu2204" --custom-data cloud-init.sh --size "Standard_D8s_v4" --public-ip-sku "Standard"
