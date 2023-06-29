@@ -51,3 +51,5 @@ buildNumber.properties
 
 #### App
 app.properties
+id_rsa
+id_rsa.pub

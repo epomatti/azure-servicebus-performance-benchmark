@@ -50,29 +50,34 @@ mvn exec:java -Dreactor.schedulers.defaultBoundedElasticSize=100
 
 Run the benchmark in the cloud with a Premium namespace.
 
-Create the jump box VM for dedicated performance. You'll run the client from this machine.
+First create the Linux VM SSH key pair:
 
 ```sh
-az vm create -n "vm-benchmark" -g "rg-servicebus-benchmark-premium" --location "brazilsouth" --image "Ubuntu2204" --custom-data cloud-init.sh --size "Standard_D8s_v4" --public-ip-sku "Standard"
+ssh-keygen -f azure/premium/id_rsa
 ```
 
-Check if the cloud-init script executed correctly:
-
-```sh
-ssh <user>@<publicIp>
-
-cloud-init status
-```
-
-Get the application code from GitHub via a release archive or cloning (requires login).
-
-Create the **Premium** namespace:
+Now create the infrastructure for the benchmark:
 
 ```sh
 az deployment sub create \
   --location brazilsouth \
   --template-file azure/premium/main.bicep \
-  --parameters rgLocation=brazilsouth
+  --parameters rgLocation=brazilsouth vmUsername="bench" vmPassword=p4ssw0rd
+```
+
+Once the process is complete, connect to the VM and check if the `cloud-init` script executed correctly:
+
+```sh
+ssh -i ./azure/premium/id_rsa.pub bench@<publicIp>
+
+cloud-init status
+```
+
+Download and extract the application code from the latest release:
+
+```sh
+curl -L https://github.com/epomatti/azure-servicebus-performance-benchmark/archive/refs/tags/v0.0.1.tar.gz -o client.tar.gz
+tar -xf client.tar.gz
 ```
 
 Get the connection string:
@@ -85,13 +90,6 @@ To control Java memory and JVM configurations:
 
 ```sh
 export MAVEN_OPTS="-Xms256m -Xmx16g"
-```
-
-Download the application code:
-
-```sh
-curl -L https://github.com/epomatti/azure-servicebus-performance-benchmark/archive/refs/tags/v0.0.1.tar.gz -o client.tar.gz
-tar -xf client.tar.gz
 ```
 
 From the application root, create the properties file:
