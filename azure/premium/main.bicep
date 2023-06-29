@@ -23,24 +23,24 @@ module network './network.bicep' = {
   }
 }
 
-// module bus './servicebus.bicep' = {
-//   name: 'servicebusPremiumDeployment'
-//   scope: rg
-//   params: {
-//     location: rg.location
-//   }
-// }
+module bus './servicebus.bicep' = {
+  name: 'servicebusPremiumDeployment'
+  scope: rg
+  params: {
+    location: rg.location
+  }
+}
 
-// module privatelink './privatelink.bicep' = {
-//   name: 'privateLinkDeployment'
-//   scope: rg
-//   params: {
-//     location: rg.location
-//     vnetId: network.outputs.vnetId
-//     subnetId: network.outputs.subnetId
-//     namespaceId: bus.outputs.namespaceId
-//   }
-// }
+module privatelink './privatelink.bicep' = {
+  name: 'privateLinkDeployment'
+  scope: rg
+  params: {
+    location: rg.location
+    vnetId: network.outputs.vnetId
+    subnetId: network.outputs.subnetId
+    namespaceId: bus.outputs.namespaceId
+  }
+}
 
 module vm './vm.bicep' = {
   name: 'vmDeployment'
