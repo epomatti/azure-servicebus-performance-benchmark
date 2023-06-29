@@ -21,7 +21,7 @@ Get the connection string for the namespace:
 az servicebus namespace authorization-rule keys list -g "rg-servicebus-benchmark" --namespace-name "bus-benchmark-999" --name "RootManageSharedAccessKey" --query "primaryConnectionString" -o tsv
 ```
 
-Create the `app.properties` in the root folder:
+Create the `app.properties` in the root folder from the template:
 
 ```sh
 cp config/template.app.properties app.properties
