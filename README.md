@@ -9,6 +9,10 @@ You can use this section to run the code locally, prior to running it in the clo
 Start by creating the Service Bus namespace using a Standard bus tier:
 
 ```sh
+# Upgrade
+az bicep upgrade
+
+# Create
 az deployment sub create \
   --location brazilsouth \
   --template-file azure/dev/main.bicep \
@@ -32,7 +36,7 @@ Install the latest stable Java in your local machine if you don't have it:
 
 ```sh
 sdk install maven
-sdk install java 17.0.7-tem
+sdk install java 21-tem
 ```
 
 Run the benchmark client:
@@ -58,6 +62,10 @@ ssh-keygen -f azure/premium/id_rsa
 Now create the infrastructure for the benchmark:
 
 ```sh
+# Upgrade
+az bicep upgrade
+
+# Create
 az deployment sub create \
   --location brazilsouth \
   --template-file azure/premium/main.bicep \

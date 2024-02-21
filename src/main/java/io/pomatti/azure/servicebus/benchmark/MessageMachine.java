@@ -55,8 +55,9 @@ public class MessageMachine {
 
     } catch (Exception e) {
       throw new RuntimeException(e);
+    } finally {
+      pool.close();
     }
-
   }
 
   private Set<Integer> getLargeDataset() {

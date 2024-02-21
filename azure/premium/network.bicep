@@ -1,7 +1,7 @@
 @description('Location for all resources.')
 param location string
 
-resource networkSecurityGroup 'Microsoft.Network/networkSecurityGroups@2022-05-01' = {
+resource networkSecurityGroup 'Microsoft.Network/networkSecurityGroups@2023-04-01' = {
   name: 'nsg-benchmark'
   location: location
   properties: {
@@ -36,7 +36,7 @@ resource networkSecurityGroup 'Microsoft.Network/networkSecurityGroups@2022-05-0
   }
 }
 
-resource vnet 'Microsoft.Network/virtualNetworks@2022-07-01' = {
+resource vnet 'Microsoft.Network/virtualNetworks@2023-04-01' = {
   name: 'vnet-benchmark'
   location: location
   properties: {

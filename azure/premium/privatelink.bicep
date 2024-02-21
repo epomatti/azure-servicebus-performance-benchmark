@@ -10,7 +10,7 @@ param subnetId string
 @description('The subnet ID to associate the private endpoint')
 param namespaceId string
 
-resource privateEndpoint 'Microsoft.Network/privateEndpoints@2022-07-01' = {
+resource privateEndpoint 'Microsoft.Network/privateEndpoints@2023-04-01' = {
   name: 'pe-benchmark'
   location: location
   properties: {
