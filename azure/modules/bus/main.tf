@@ -1,4 +1,4 @@
-resource "azurerm_servicebus_namespace" "example" {
+resource "azurerm_servicebus_namespace" "default" {
   name                         = "bus-${var.workload}"
   location                     = var.location
   resource_group_name          = var.resource_group_name
@@ -12,4 +12,12 @@ resource "azurerm_servicebus_namespace" "example" {
       var.user_assigned_identity_id
     ]
   }
+}
+
+resource "azurerm_servicebus_queue" "benchmark_queue" {
+  name                 = "benchmark-queue"
+  namespace_id         = azurerm_servicebus_namespace.default.id
+
+  # TODO: Changes for Premium with 1 vs more partitions
+  partitioning_enabled = true
 }

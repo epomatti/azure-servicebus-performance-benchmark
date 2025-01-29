@@ -5,10 +5,18 @@
     "dictionaries": [],
     "words": [
         "adoptium",
+        "azurerm",
+        "azureuser",
         "brazilsouth",
         "gnupg",
+        "linux",
         "noninteractive",
-        "temurin"
+        "osdisk",
+        "temurin",
+        "terraformrc",
+        "tfstate",
+        "vnet",
+        "vtpm"
     ],
     "ignoreWords": [],
     "import": []
