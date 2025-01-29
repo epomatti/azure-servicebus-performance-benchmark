@@ -5,10 +5,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>io.pomatti.azure</groupId>
-  <artifactId>azure-servicebus-benchmark</artifactId>
-  <version>0.1.0</version>
+  <artifactId>azure-servicebus-performance-benchmark</artifactId>
+  <version>0.2.0</version>
   <name>app</name>
-  <description>Azure Service Bus benchmark</description>
+  <description>Azure Service Bus Performance Benchmark</description>
   <packaging>jar</packaging>
 
   <properties>
@@ -179,7 +179,7 @@
     <repository>
       <id>github</id>
       <name>GitHub Packages</name>
-      <url>https://maven.pkg.github.com/epomatti/azure-servicebus-benchmark</url>
+      <url>https://maven.pkg.github.com/epomatti/azure-servicebus-performance-benchmark</url>
     </repository>
   </distributionManagement>
 
