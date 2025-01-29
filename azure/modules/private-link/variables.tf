@@ -14,6 +14,6 @@ variable "private_endpoints_subnet_id" {
   type = string
 }
 
-variable "keyvault_id" {
+variable "service_bus_namespace_id" {
   type = string
 }

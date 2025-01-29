@@ -12,6 +12,8 @@
         "linux",
         "noninteractive",
         "osdisk",
+        "privatelink",
+        "subresource",
         "temurin",
         "terraformrc",
         "tfstate",
