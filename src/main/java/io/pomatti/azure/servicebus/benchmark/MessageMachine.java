@@ -35,7 +35,7 @@ public class MessageMachine {
 
     Instant starts = Instant.now();
     try {
-      pool.submit(() -> dataset.stream().parallel().forEach(i -> {
+      pool.submit(() -> dataset.stream().parallel().forEach(_ -> {
         if (useBatch) {
           sender.sendBach(body, batchSize);
         } else {

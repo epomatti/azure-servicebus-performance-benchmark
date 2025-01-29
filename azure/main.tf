@@ -35,6 +35,17 @@ resource "azurerm_user_assigned_identity" "service_bus" {
   resource_group_name = azurerm_resource_group.default.name
 }
 
+module "service_bus" {
+  source                       = "./modules/bus"
+  resource_group_name          = azurerm_resource_group.default.name
+  location                     = azurerm_resource_group.default.location
+  workload                     = var.workload
+  user_assigned_identity_id    = azurerm_user_assigned_identity.service_bus.id
+  bus_sku                      = var.bus_sku
+  bus_capacity                 = var.bus_capacity
+  premium_messaging_partitions = var.premium_messaging_partitions
+}
+
 module "virtual_machine" {
   source                         = "./modules/vm"
   location                       = azurerm_resource_group.default.location
@@ -58,5 +69,5 @@ module "private_endpoints" {
   location                    = azurerm_resource_group.default.location
   vnet_id                     = module.vnet.vnet_id
   private_endpoints_subnet_id = module.vnet.private_endpoints_subnet_id
-  keyvault_id                 = module.keyvault.id
+  service_bus_namespace_id    = module.service_bus.id
 }

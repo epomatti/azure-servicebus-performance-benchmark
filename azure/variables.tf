@@ -15,6 +15,19 @@ variable "public_ip_address_to_allow" {
   type = string
 }
 
+### Service Bus ###
+variable "bus_sku" {
+  type = string
+}
+
+variable "bus_capacity" {
+  type = number
+}
+
+variable "premium_messaging_partitions" {
+  type = number
+}
+
 ### Virtual Machine ###
 variable "vm_admin_username" {
   type = string
