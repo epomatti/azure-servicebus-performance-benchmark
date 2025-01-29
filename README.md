@@ -15,7 +15,7 @@ az bicep upgrade
 # Create
 az deployment sub create \
   --location brazilsouth \
-  --template-file azure/dev/main.bicep \
+  --template-file azure/bicep/dev/main.bicep \
   --parameters rgLocation=brazilsouth
 ```
 
