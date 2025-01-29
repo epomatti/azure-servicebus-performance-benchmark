@@ -30,14 +30,18 @@ resource "azurerm_linux_virtual_machine" "main" {
   admin_username        = var.vm_admin_username
   network_interface_ids = [azurerm_network_interface.main.id]
 
-  secure_boot_enabled               = true
-  vtpm_enabled                      = true
+  # TODO:
+  secure_boot_enabled               = false
+  vtpm_enabled                      = false
   vm_agent_platform_updates_enabled = false # Setting to false for Linux. Seems to work only for Windows
 
   custom_data = filebase64("${path.module}/custom_data/ubuntu.sh")
 
   identity {
-    type = "SystemAssigned"
+    type = "UserAssigned"
+    identity_ids = [
+      var.user_assigned_identity_id
+    ]
   }
 
   admin_ssh_key {

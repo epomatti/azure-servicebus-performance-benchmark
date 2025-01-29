@@ -14,6 +14,10 @@ variable "vm_public_key_path" {
   type = string
 }
 
+variable "user_assigned_identity_id" {
+  type = string
+}
+
 variable "subnet_id" {
   type = string
 }

@@ -21,7 +21,3 @@ variable "bus_capacity" {
 variable "premium_messaging_partitions" {
   type = number
 }
-
-variable "user_assigned_identity_id" {
-  type = string
-}

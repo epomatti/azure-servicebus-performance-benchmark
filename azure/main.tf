@@ -29,21 +29,20 @@ module "vnet" {
   allowed_public_ips  = [var.public_ip_address_to_allow]
 }
 
-resource "azurerm_user_assigned_identity" "service_bus" {
-  name                = "id-bus-${var.workload}"
-  location            = var.location
-  resource_group_name = azurerm_resource_group.default.name
-}
-
 module "service_bus" {
   source                       = "./modules/bus"
   resource_group_name          = azurerm_resource_group.default.name
   location                     = azurerm_resource_group.default.location
   workload                     = var.workload
-  user_assigned_identity_id    = azurerm_user_assigned_identity.service_bus.id
   bus_sku                      = var.bus_sku
   bus_capacity                 = var.bus_capacity
   premium_messaging_partitions = var.premium_messaging_partitions
+}
+
+resource "azurerm_user_assigned_identity" "virtual_machine" {
+  name                = "id-vm-${var.workload}"
+  location            = var.location
+  resource_group_name = azurerm_resource_group.default.name
 }
 
 module "virtual_machine" {
@@ -56,6 +55,7 @@ module "virtual_machine" {
   vm_size                        = var.vm_size
   vm_osdisk_storage_account_type = var.vm_osdisk_storage_account_type
   subnet_id                      = module.vnet.default_subnet_id
+  user_assigned_identity_id      = azurerm_user_assigned_identity.virtual_machine.id
 
   vm_image_publisher = var.vm_image_publisher
   vm_image_offer     = var.vm_image_offer
@@ -69,5 +69,5 @@ module "private_endpoints" {
   location                    = azurerm_resource_group.default.location
   vnet_id                     = module.vnet.vnet_id
   private_endpoints_subnet_id = module.vnet.private_endpoints_subnet_id
-  service_bus_namespace_id    = module.service_bus.id
+  service_bus_namespace_id    = module.service_bus.namespace_id
 }

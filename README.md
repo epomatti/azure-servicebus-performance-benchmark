@@ -43,31 +43,10 @@ mvn exec:java
 
 Run the benchmark in the cloud with a **Premium** namespace.
 
-First, create the Linux VM SSH key pair:
+Create the Linux VM SSH key pair:
 
 ```sh
-ssh-keygen -f azure/premium/id_rsa
-```
-
-Now create the infrastructure for the benchmark:
-
-```sh
-# Upgrade
-az bicep upgrade
-
-# Create
-az deployment sub create \
-  --location brazilsouth \
-  --template-file azure/premium/main.bicep \
-  --parameters rgLocation=brazilsouth vmUsername=bench vmPassword=p4ssw0rd
-```
-
-Once the process is complete, connect to the VM and check if the `cloud-init` script executed correctly:
-
-```sh
-ssh -i ./azure/premium/id_rsa bench@<publicIp>
-
-cloud-init status
+mkdir .keys && ssh-keygen -f .keys/temp_rsa
 ```
 
 Download and extract the application code from the latest release:
