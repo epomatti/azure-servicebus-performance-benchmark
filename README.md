@@ -22,7 +22,7 @@ az deployment sub create \
 Get the connection string for the namespace:
 
 ```sh
-az servicebus namespace authorization-rule keys list -g "rg-servicebus-benchmark-dev" --namespace-name "bus-benchmark-999-dev" --name "RootManageSharedAccessKey" --query "primaryConnectionString" -o tsv
+az servicebus namespace authorization-rule keys list -g rg-servicebus-benchmark-dev --namespace-name bus-benchmark999-dev --name RootManageSharedAccessKey --query primaryConnectionString -o tsv
 ```
 
 Create the `app.properties` in the root folder from the template:
@@ -32,22 +32,12 @@ Create the `app.properties` in the root folder from the template:
 cp config/template.app.properties app.properties
 ```
 
-Install the latest stable Java in your local machine if you don't have it:
-
-```sh
-sdk install maven
-sdk install java 21-tem
-```
-
 Run the benchmark client:
 
 ```sh
 mvn install
-mvn exec:java -Dreactor.schedulers.defaultBoundedElasticSize=100
+mvn exec:java
 ```
-
-> ℹ️ Due to [this known issue](https://github.com/Azure/azure-sdk-for-java/issues/30483), `defaultBoundedElasticSize` needs to be set for Reactor. Value must be greater than "maxConcurrentCalls".
-
 
 ## 🚀 Cloud Benchmark
 
@@ -138,6 +128,16 @@ Namespace resources:
 Sample:
 
 <img src=".assets/sender_benchmark.png" width=800 />
+
+## Troubleshooting
+
+Due to [this issue](https://github.com/Azure/azure-sdk-for-java/issues/30483), `defaultBoundedElasticSize` needed to be set for Reactor. Value must be greater than "maxConcurrentCalls".
+
+This seems to have been resolved, but here is the command for reference if needed:
+
+```sh
+mvn exec:java -Dreactor.schedulers.defaultBoundedElasticSize=100
+```
 
 ## References
 
