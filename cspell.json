@@ -4,7 +4,11 @@
     "dictionaryDefinitions": [],
     "dictionaries": [],
     "words": [
-        "brazilsouth"
+        "adoptium",
+        "brazilsouth",
+        "gnupg",
+        "noninteractive",
+        "temurin"
     ],
     "ignoreWords": [],
     "import": []

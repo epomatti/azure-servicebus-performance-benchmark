@@ -1,7 +1,6 @@
 #!/bin/bash
 
 export DEBIAN_FRONTEND=noninteractive
-export NEEDRESTART_MODE=a
 
 sudo apt-get update
 sudo apt-get upgrade -y
