@@ -32,11 +32,18 @@ Create the `app.properties` in the root folder from the template:
 cp config/template.app.properties app.properties
 ```
 
+> [!TIP]
+> Check for [dependencies](https://www.mojohaus.org/versions/versions-maven-plugin/examples/display-dependency-updates.html) and [plugins](https://www.mojohaus.org/versions/versions-maven-plugin/examples/display-plugin-updates.html) updates.
+
 Run the benchmark client:
 
 ```sh
 mvn install
 mvn exec:java
+```
+
+```sh
+mvn package -P assemble-all
 ```
 
 ## 🚀 Cloud Benchmark
